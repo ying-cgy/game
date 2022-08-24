@@ -1,0 +1,126 @@
+<!-- 骰子滚动区域 -->
+<html>
+    <head>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/jquery-2.1.3.min.js"></script>
+    </head>
+    <body>
+        <div class="main">
+            <img class="img" src="../img/p4.png">
+            <div id="dice" class="dice dice_1"></div>
+        </div>
+        <button class="back">返回上一步</button>
+        <audio id="yinxiao" src=""></audio>
+    </body>
+</html>
+<style>
+    body{
+        background: url(../img/bc3.png);
+        background-repeat:no-repeat;
+        background-size:cover;
+        
+    }
+    .img{
+        width: 200px;
+        height: 200px;
+        position: absolute;
+        top:180px;
+        left:490px;
+    }
+.wrap{width:90px; height:90px; margin:120px auto 30px auto; position:relative}
+.dice{
+    width:90px; height:90px; background:url(../img/dice.png) no-repeat;
+    position: absolute;
+    top:1379px;
+    left:1737px;
+}
+.dice_1{background-position:-5px -4px}
+.dice_2{background-position:-5px -107px}
+.dice_3{background-position:-5px -212px}
+.dice_4{background-position:-5px -317px}
+.dice_5{background-position:-5px -427px}
+.dice_6{background-position:-5px -535px}
+.dice_t{background-position:-5px -651px}
+.dice_s{background-position:-5px -763px}
+.dice_e{background-position:-5px -876px}
+p#result{text-align:center; font-size:16px}
+p#result span{font-weight:bold; color:#f30; margin:6px}
+#dice_mask{width:90px; height:90px; background:#fff; opacity:0; z-index:999}
+</style>
+<script>
+    var id=0;
+    var tag=0;
+    var last;
+$(function(){
+	var dice = $("#dice");
+	dice.click(function(){
+		dice.attr("class","dice");//清除上次动画后的点数
+        dice.css("cursor","default");
+        $(".wrap").append("<div id='dice_mask'></div>");//加遮罩
+		var num = Math.floor(Math.random()*6+1);//产生随机数1-6
+		dice.animate({left: '1737px'}, 100,function(){
+			dice.addClass("dice_t");
+		}).delay(200).animate({top:'1379'},100,function(){
+			dice.removeClass("dice_t").addClass("dice_s");
+		}).delay(200).animate({opacity: 'show'},600,function(){
+			dice.removeClass("dice_s").addClass("dice_e");
+		}).delay(100).animate({left:'1737px',top:'1379'},100,function(){
+			dice.removeClass("dice_e").addClass("dice_"+num);
+            dice.css('cursor','pointer');
+			$("#dice_mask").remove();//移除遮罩
+            move(num)
+		});
+	});
+    var back=$(".back");
+    back.click(function(){
+        id=last;
+        var people=$(".img");
+        people.css('top',dicev[id-1].top-100);
+        people.css('left',dicev[id-1].left-100)
+    })
+});
+
+function move(num){
+    if(tag==1)return;
+    var people=$(".img");
+    var i,j,val=id+num;
+    last=id;
+    for(i=0;i<num&&id<=26;i++){
+        var attr=dicev[id];
+        people.animate({left: attr.left-100,top:attr.top-100},800)
+        id++;
+        if(val==1){
+            num=4;val=0;
+        }
+        if(val==13){
+            num=5;val=0;
+        }
+    }
+    back=num-i;
+    if(id==21){
+        back=5;
+    }
+    for(j=back;j>0;j--){
+        if(id==27)id=26;
+        id--;
+        var attr=dice[id];
+        people.animate({left: attr.left-100,top:attr.top-100},800)
+        if(j==1)id++;
+    }
+    console.log(last,id)
+    
+    if(id==27){
+        // planeAudio.playWinMusic();
+    }    
+}
+var PlaneAudio = function () {
+    function playMusic(musicSrc) {
+            $('#yinxiao').attr('src', musicSrc);
+            $('#yinxiao')[0].play();
+    }
+    this.playWinMusic = function () {
+        playMusic('../audio/未来.mp3');
+    };
+};
+var planeAudio = new PlaneAudio();
+</script>
