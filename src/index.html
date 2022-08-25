@@ -25,14 +25,14 @@
         height: 200px;
         position: absolute;
         top:34px;
-        left:218px;
+        left:210px;
     }
 .wrap{width:90px; height:90px; margin:120px auto 30px auto; position:relative}
 .dice{
     width:90px; height:90px; background:url(../img/dice.png) no-repeat;
     position: absolute;
     top:730px;
-    left:950px;
+    left:920px;
 }
 .dice_1{background-position:-5px -4px}
 .dice_2{background-position:-5px -107px}
@@ -48,6 +48,9 @@ p#result span{font-weight:bold; color:#f30; margin:6px}
 #dice_mask{width:90px; height:90px; background:#fff; opacity:0; z-index:999}
 </style>
 <script>
+    import $ from './js/jquery-2.1.3.min.js'
+window.$ = $
+window.jQuery = $
     var id=0;
     var tag=0;
     var last;
@@ -58,13 +61,13 @@ $(function(){
         dice.css("cursor","default");
         $(".wrap").append("<div id='dice_mask'></div>");//加遮罩
 		var num = Math.floor(Math.random()*6+1);//产生随机数1-6
-		dice.animate({left: '940px'}, 100,function(){
+		dice.animate({left: '920px'}, 100,function(){
 			dice.addClass("dice_t");
 		}).delay(200).animate({top:'730'},100,function(){
 			dice.removeClass("dice_t").addClass("dice_s");
 		}).delay(200).animate({opacity: 'show'},600,function(){
 			dice.removeClass("dice_s").addClass("dice_e");
-		}).delay(100).animate({left:'940px',top:'730px'},100,function(){
+		}).delay(100).animate({left:'920px',top:'730px'},100,function(){
 			dice.removeClass("dice_e").addClass("dice_"+num);
             dice.css('cursor','pointer');
 			$("#dice_mask").remove();//移除遮罩
@@ -75,8 +78,8 @@ $(function(){
     back.click(function(){
         id=last;
         var people=$(".img");
-        people.css('top',dicev[id-1].top+34);
-        people.css('left',dicev[id-1].left+218)
+        people.css('top',parseInt(dicev[id-1].top)+34);
+        people.css('left',dparseInt(icev[id-1].left)+210)
     })
 });
 
@@ -87,7 +90,7 @@ function move(num){
     last=id;
     for(i=0;i<num&&id<=26;i++){
         var attr=dicev[id];
-        var left=parseInt (attr.left)+218;var top=parseInt (attr.top)+34
+        var left=parseInt (attr.left)+210;var top=parseInt (attr.top)+34
         console.log(left)
         people.animate({left: left,top:top},800)
         id++;
@@ -106,7 +109,7 @@ function move(num){
         if(id==27)id=26;
         id--;
         var attr=dicev[id];
-        people.animate({left: attr.left+218,top:attr.top+34},800)
+        people.animate({left: attr.left+210,top:attr.top+34},800)
         if(j==1)id++;
     }
     console.log(last,id)
