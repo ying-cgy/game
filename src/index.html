@@ -47,11 +47,11 @@
         
     }
     .img{
-        width: 200px;
-        height: 200px;
+        width: 100px;
+        height: 100px;
         position: absolute;
-        top:34px;
-        left:210px;
+        top:84px;
+        left:260px;
     }
 .wrap{width:90px; height:90px; margin:120px auto 30px auto; position:relative}
 .dice{
@@ -84,6 +84,7 @@ $(function(){
         dice.css("cursor","default");
         $(".wrap").append("<div id='dice_mask'></div>");//加遮罩
 		var num = Math.floor(Math.random()*6+1);//产生随机数1-6
+        planeAudio.playDiceMusic();
 		dice.animate({left: '920px'}, 100,function(){
 			dice.addClass("dice_t");
 		}).delay(200).animate({top:'730'},100,function(){
@@ -131,8 +132,8 @@ function move(num){
         }
     }
     back=num-i;
-    if(id==21){
-        back=5;
+    if(id==22){
+        back=6;
     }
     for(j=back;j>0;j--){
         if(id==27)id=26;
@@ -158,6 +159,9 @@ var PlaneAudio = function () {
     }
     this.playWinMusic = function () {
         playMusic('../audio/未来.mp3');
+    };
+    this.playDiceMusic = function () {
+        playMusic('../audio/dice.ogg');
     };
 };
 var planeAudio = new PlaneAudio();
