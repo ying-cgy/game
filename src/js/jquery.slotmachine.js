@@ -5,6 +5,7 @@
  * Copyright 2014 Jose Luis Represa
  * Released under the MIT license
  */
+
 (function ($) {
 
     //Set required styles, filters and masks

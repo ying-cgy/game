@@ -3,17 +3,43 @@
     <head>
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript" src="js/jquery-2.1.3.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>   
     </head>
     <body>
         <div class="main">
             <img class="img" src="../img/p4.png">
             <div id="dice" class="dice dice_1"></div>
         </div>
+        <div id="prompt">
+            <h1 id="name"></h1>
+            <h2 id="desc"></h2>
+            <button id="btn"></button>
+        </div>
         <button class="back">返回上一步</button>
         <audio id="yinxiao" src=""></audio>
     </body>
 </html>
 <style>
+    .btn{
+        font-size: 14px;
+        border-radius: 12px;
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+        width:80px;
+        padding-top: 8px;
+        padding-bottom: 8px;
+    }
+    .prompt{
+        background-color: rgb(220, 204, 204);
+        opacity: 0.7;
+        width:400px;
+        position: absolute;
+        left: 50%;
+        margin-left: -200px;
+        top:50%;
+        margin-top: -200px;
+        padding-left: 70px;
+    }
     body{
         background: url(../img/bc3.png);
         background-repeat:no-repeat;
@@ -68,7 +94,7 @@ $(function(){
 			dice.removeClass("dice_e").addClass("dice_"+num);
             dice.css('cursor','pointer');
 			$("#dice_mask").remove();//移除遮罩
-            move(num)
+            move(21)
 		});
 	});
     var back=$(".back");
@@ -77,6 +103,13 @@ $(function(){
         var people=$(".img");
         people.css('top',parseInt(dicev[id-1].top)+34);
         people.css('left',dparseInt(icev[id-1].left)+210)
+    })
+    $('#btn').click(function(){
+        $('#prompt').removeClass('prompt')
+        $('#name').html('');
+        $('#desc').html('');
+        $('#btn').html("")
+        $('#btn').removeClass('btn')
     })
 });
 
@@ -88,7 +121,6 @@ function move(num){
     for(i=0;i<num&&id<=26;i++){
         var attr=dicev[id];
         var left=parseInt (attr.left)+210;var top=parseInt (attr.top)+34
-        console.log(left)
         people.animate({left: left,top:top},800)
         id++;
         if(val==1){
@@ -106,14 +138,18 @@ function move(num){
         if(id==27)id=26;
         id--;
         var attr=dicev[id];
-        people.animate({left: attr.left+210,top:attr.top+34},800)
+        var left=parseInt (attr.left)+210;var top=parseInt (attr.top)+34
+        people.animate({left: left,top:top},800)
         if(j==1)id++;
     }
-    console.log(last,id)
-    
     if(id==27){
         planeAudio.playWinMusic();
-    }    
+    }
+    $('#prompt').addClass('prompt')
+    $('#name').html(dicev[id-1].game);
+    $('#desc').html(dicev[id-1].desc);
+    $('#btn').html("确定")
+    $('#btn').addClass('btn')
 }
 var PlaneAudio = function () {
     function playMusic(musicSrc) {
