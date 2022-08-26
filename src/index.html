@@ -110,12 +110,12 @@ $(function(){
         if(last==0){
             var people=$(".img");
             people.css('top',84);
-            people.css('left',220)
+            people.css('left',260)
         }
         id=last;
         var people=$(".img");
         people.css('top',parseInt(dicev[id-1].top)+84);
-        people.css('left',dparseInt(icev[id-1].left)+220)
+        people.css('left',parseInt(dicev[id-1].left)+260)
     })
     $('#btn').click(function(){
         $('#prompt').removeClass('prompt')
@@ -137,10 +137,10 @@ function move(num){
         people.animate({left: left,top:top},800)
         id++;
         if(val==1){
-            num=4;val=0;
+            num+=3;val=0;
         }
         if(val==13){
-            num=5;val=0;
+            num+=4;val=0;
         }
     }
     back=num-i;
